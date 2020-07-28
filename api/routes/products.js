@@ -10,7 +10,7 @@ const Category = require('../models/category');
 router.get("/", (req, res, next) => {
     Product.find()
       .select("name price _id")
-      .populate('Category')
+      .populate('category')
       .exec()
       .then(docs => {
         res.status(200).json({
@@ -18,12 +18,12 @@ router.get("/", (req, res, next) => {
           categories: docs.map(doc => {
             return {
               _id: doc._id,
-              product: doc.product,
+              name: doc.name,
               price: doc.price,
-              category:doc._id,
+              category:doc.category,
               request: {
                 type: "GET",
-                url: "http://localhost:3000/products/" + doc._id
+                url: "http://localhost:3003/products/" + doc._id
               }
             };
           })
@@ -91,7 +91,7 @@ const product = new Product({
 
                 request:{
                     type: 'GET',
-                    url: "http://localhost:3001/products/"+ result._id
+                    url: "http://localhost:3003/products/"+ result._id
                 }
             }
             });
@@ -115,15 +115,19 @@ router.get('/:productId', (req, res, next) =>{
     const id = req.params.productId;
        Product.findById(id)
        .select('name price _id')
+       .populate('category')
        .exec()
        .then(doc =>{
            console.log(doc);
            if(doc){
                res.status(200).json({
-                   product:doc,
+                   _id: doc._id,
+                   name:doc.name,
+                   price: doc.price,
+                   category:doc.category,
                    request:  {
                        type: 'GET',
-                       url: 'http://localhost:30001/product'
+                       url: 'http://localhost:3003/product'
                    }
                })
            } else {

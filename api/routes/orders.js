@@ -26,7 +26,7 @@ router.get('/', (req, res, next) =>{
                     quanity: doc.quanity,
                     reqest: {
                         type: 'GET',
-                        url: 'http:localhost:3001/orders/'+ doc._id
+                        url: 'http:localhost:3003/orders/'+ doc._id
                     }}
                 }
 
@@ -62,7 +62,7 @@ Product.findById(req.body.productId)
           },
           reqest: {
             type: 'POS',
-            url: 'http:localhost:3001/orders/' + result._id
+            url: 'http:localhost:3003/orders/' + result._id
         }
       });
   })
@@ -89,11 +89,12 @@ router.get('/:orderId', (req, res, next) =>{
         res.status(200).json({
            order:{
                product: order.product,
-               quantity: order.quantity
+               quantity: order.quantity,
+               toTalPrice: order.quantity*order.product.price
            },
            request : {
                type: "GET",
-               url: 'http://localhost:3001/orders'
+               url: 'http://localhost:3003/orders'
 
            }
         })
@@ -121,7 +122,7 @@ router.delete('/:orderId', (req, res, next) =>{
            
            request : {
                type: "POST",
-               url: 'http://localhost:3001/orders',
+               url: 'http://localhost:3003/orders',
                body:{
                    productId:"ID", quantity: "Number"
                }

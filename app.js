@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
  
 mongoose
- .connect('mongodb://localhost:27017/restFull',{
+ .connect('mongodb://localhost:27017/rest',{
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true 
